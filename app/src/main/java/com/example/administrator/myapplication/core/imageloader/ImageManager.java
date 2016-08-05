@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.example.administrator.myapplication.R;
 import com.facebook.common.logging.FLog;
@@ -58,7 +59,7 @@ public class ImageManager {
     }
 
     public static void loadImage(GenericDraweeView draweeView, String path) {
-        if (draweeView == null) {
+        if (draweeView == null || TextUtils.isEmpty(path)) {
             return;
         }
         Uri uri = Uri.parse(path);

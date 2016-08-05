@@ -4,23 +4,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.myapplication.common.base.BaseActivity;
-import com.example.administrator.myapplication.testpackage.NewsFragment;
+import com.example.administrator.myapplication.newspackage.fragment.NewsFragment;
 import com.example.administrator.myapplication.viewhelper.DragLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.nineoldandroids.view.ViewHelper;
-
-import java.util.Random;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
