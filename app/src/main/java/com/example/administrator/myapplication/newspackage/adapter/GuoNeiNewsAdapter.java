@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.newspackage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.common.utils.ToastUtil;
 import com.example.administrator.myapplication.core.imageloader.ImageManager;
 import com.example.administrator.myapplication.newspackage.bean.GuoNeiNewsBean;
+import com.example.administrator.myapplication.newspackage.webview.WebViewActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.List;
  * 国内新闻适配器
  * Created by zhanghao on 2016/8/5.
  */
-public class GuoNeiNewsAdapter extends BaseRecyclerAdapter<GuoNeiNewsAdapter.MyHolder> {
+public class GuoNeiNewsAdapter extends RecyclerView.Adapter<GuoNeiNewsAdapter.MyHolder> {
     private Context mContext;
     private List<GuoNeiNewsBean> listData;
     private LayoutInflater inflater;
@@ -53,18 +56,13 @@ public class GuoNeiNewsAdapter extends BaseRecyclerAdapter<GuoNeiNewsAdapter.MyH
     }
 
     @Override
-    public MyHolder getViewHolder(View view) {
-        return null;
+    public int getItemCount() {
+        return listData.size();
     }
 
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
-        GuoNeiNewsBean bean = listData.get(position);
+    public void onBindViewHolder(MyHolder holder, final int position) {
+        final GuoNeiNewsBean bean = listData.get(position);
         ImageManager.loadImage(holder.simpleView, bean.picUrl);
         if (!TextUtils.isEmpty(bean.title)) {
             holder.title.setText(bean.title);
@@ -75,7 +73,17 @@ public class GuoNeiNewsAdapter extends BaseRecyclerAdapter<GuoNeiNewsAdapter.MyH
         if (!TextUtils.isEmpty(bean.description)) {
             holder.desc.setText(bean.description);
         }
-        setAnimation(holder.card, position);
+        holder.simpleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.show(position + "");
+                Intent intent = new Intent(mContext, WebViewActivity.class);
+                intent.putExtra("title", bean.description);
+                intent.putExtra("url", bean.url);
+                mContext.startActivity(intent);
+            }
+        });
+//        setAnimation(holder.card, position);
     }
 
     private void setAnimation(View viewToAnimate, int position) {
@@ -85,11 +93,6 @@ public class GuoNeiNewsAdapter extends BaseRecyclerAdapter<GuoNeiNewsAdapter.MyH
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
-    }
-
-    @Override
-    public int getAdapterItemCount() {
-        return listData.size();
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
